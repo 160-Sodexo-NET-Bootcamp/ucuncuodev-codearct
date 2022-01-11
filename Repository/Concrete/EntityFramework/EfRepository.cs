@@ -19,40 +19,36 @@ namespace GCS.Repository.Concrete.EntityFramework
             _context = context;
             _dbSet = context.Set<TEntity>();
         }
-        public async Task<bool> Add(TEntity entity)
+        public void Add(TEntity entity)
         {
-            await _dbSet.AddAsync(entity);
-            return true;           
+             _dbSet.AddAsync(entity);                      
         }
 
-        public async Task<bool> Delete(TEntity entity)
+        public void Delete(TEntity entity)
         {
             _dbSet.Remove(entity);
-            return true;
         }
 
-        public async Task<bool> DeleteAll(IEnumerable<TEntity> entities)
+        public void DeleteAll(IEnumerable<TEntity> entities)
         {
             _dbSet.RemoveRange(entities);
-            return true;
         }
 
-        public async Task<TEntity> Get(Expression<Func<TEntity, bool>> filter)
+        public TEntity Get(Expression<Func<TEntity, bool>> filter)
         {
-            return await _context.Set<TEntity>().SingleOrDefaultAsync(filter);
+            return  _context.Set<TEntity>().SingleOrDefault(filter);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll(Expression<Func<TEntity, bool>> filter = null)
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
             return filter == null
-                    ? await _context.Set<TEntity>().ToListAsync()
-                    : await _context.Set<TEntity>().Where(filter).ToListAsync();
+                    ? _context.Set<TEntity>().ToList()
+                    : _context.Set<TEntity>().Where(filter).ToList();
         }
 
-        public async Task<bool> Update(TEntity entity)
+        public void Update(TEntity entity)
         {
             _dbSet.Update(entity);
-            return true;
         }
     }
 }

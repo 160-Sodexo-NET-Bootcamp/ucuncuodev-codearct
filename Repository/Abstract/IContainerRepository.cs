@@ -9,6 +9,6 @@ namespace GCS.Repository.Abstract
 {
     public interface IContainerRepository:IRepository<Container>
     {
-        Task<List<Container>> GetAllByVehicleId(long id);
+        List<Container> GetAllByVehicleId(long id);
     }
 }

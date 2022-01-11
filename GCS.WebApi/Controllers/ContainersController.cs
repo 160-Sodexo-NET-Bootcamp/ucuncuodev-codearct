@@ -20,50 +20,50 @@ namespace GCS.WebApi.Controllers
             _containerService = containerService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public  List<QueryContainerDto> GetAll()
         {
-            var result = await _containerService.GetAll();
-            return Ok(result);
+            var result = _containerService.GetAll();
+            return result;
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(long id)
+        public ActionResult<QueryContainerDto> GetById(long id)
         {
-            var result = await _containerService.GetById(id);
+            var result = _containerService.GetById(id);
             if (result is null)
             {
                 return NotFound("Container is not exist!!!");
             }
-            return Ok(result);
+            return result;
         }
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] CreateContainerDto containerDTO)
+        public string Create([FromBody] CreateContainerDto containerDTO)
         {
-            var result = await _containerService.Create(containerDTO);
+            var result = _containerService.Create(containerDTO);
             if (result is false)
             {
-                return BadRequest("Container already exists!!!");
+                return "Container already exists!!!";
             }
-            return Ok("Container added.");
+            return "Container added.";
         }
         [HttpPut("{id}/edit")]
-        public async Task<IActionResult> Edit(long id, [FromBody] EditContainerDto containerDTO)
+        public string Edit(long id, [FromBody] EditContainerDto containerDTO)
         {
-            var result = await _containerService.Edit(id, containerDTO);
+            var result =_containerService.Edit(id, containerDTO);
             if (result is false)
             {
-                return NotFound("Container is not exist or Cannot edit vehicle!!!");
+                return "Container is not exist or Cannot edit vehicle!!!";
             }
-            return Ok("The container updated.");
+            return "The container updated.";
         }
         [HttpDelete("{id}/delete")]
-        public async Task<IActionResult> Delete(long id)
+        public string Delete(long id)
         {
-            var result = await _containerService.Delete(id);
+            var result = _containerService.Delete(id);
             if (result is false)
             {
-                return BadRequest("Container is not exist already!!!");
+                return "Container is not exist already!!!";
             }
-            return Ok("The container was removed.");
+            return "The container was removed.";
         }
     }
 }

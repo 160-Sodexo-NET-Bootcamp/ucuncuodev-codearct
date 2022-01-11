@@ -20,12 +20,11 @@ namespace GCS.Repository.Concrete.EntityFramework
             Vehicles = vehicles;
             Containers = containers;
         }
-        public async Task<bool> CommitAsync ()
+        public void CommitAsync ()
         {
             try
             {
-                await _context.SaveChangesAsync();
-                return true;
+                _context.SaveChangesAsync();
             }
             catch (Exception)
             {

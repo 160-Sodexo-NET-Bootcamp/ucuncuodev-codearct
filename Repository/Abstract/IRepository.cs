@@ -10,11 +10,11 @@ namespace GCS.Repository.Abstract
 {
     public interface IRepository<T> where T:class,IEntity,new()
     {
-        Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> filter = null);
-        Task<T> Get(Expression<Func<T, bool>> filter);
-        Task<bool> Add(T entity);
-        Task<bool> Update(T entity);
-        Task<bool> Delete(T entity);
-        Task<bool> DeleteAll(IEnumerable<T> entities);
+        IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null);
+        T Get(Expression<Func<T, bool>> filter);
+        void Add(T entity);
+        void Update(T entity);
+        void Delete(T entity);
+        void DeleteAll(IEnumerable<T> entities);
     }
 }

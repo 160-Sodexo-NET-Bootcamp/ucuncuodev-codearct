@@ -15,12 +15,12 @@ namespace GCS.Repository.Concrete.EntityFramework
         {           
         }
 
-        public async Task<List<Container>> GetAllByVehicleId(long id)
+        public List<Container> GetAllByVehicleId(long id)
         {
-            var containers = await _dbSet.Include(c => c.Vehicle)
+            var containers = _dbSet.Include(c => c.Vehicle)
                                         .Where(v => v.VehicleId == id)
                                         .OrderBy(c => c.Id)
-                                        .ToListAsync();
+                                        .ToList();
 
             return containers;
         }

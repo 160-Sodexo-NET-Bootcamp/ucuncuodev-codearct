@@ -10,6 +10,6 @@ namespace GCS.Repository.Abstract
     {
         IVehicleRepository Vehicles { get; }
         IContainerRepository Containers { get; }
-        Task<bool> CommitAsync();
+        void CommitAsync();
     }
 }

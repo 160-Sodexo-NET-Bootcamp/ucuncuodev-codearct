@@ -20,10 +20,10 @@ namespace GCS.Service.Concrete
             _uow = uow;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<List<QueryContainerDto>>> AssignRoute(long vehicleId, int NumOfClusters)
+        public IEnumerable<List<QueryContainerDto>> AssignRoute(long vehicleId, int NumOfClusters)
         {
             //Get all containers according to vehicle id
-            var containers = await _uow.Containers.GetAllByVehicleId(vehicleId);
+            var containers = _uow.Containers.GetAllByVehicleId(vehicleId);
             //Assign containers latitude and longitude to nested array
             var coordinates = Enumerable
                                     //Start loop from zero to length of container list 

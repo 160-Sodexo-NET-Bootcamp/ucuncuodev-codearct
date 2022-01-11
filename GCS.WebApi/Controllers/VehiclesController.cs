@@ -1,4 +1,5 @@
 ﻿using GCS.Service.Abstract;
+using GCS.Service.DTO.Container;
 using GCS.Service.DTO.Vehicle;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,62 +24,62 @@ namespace GCS.WebApi.Controllers
             _routeService = routeService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public List<QueryVehicleDto> GetAll()
         {
-            var result = await _vehicleService.GetAll();
-            return Ok(result);
+            var result = _vehicleService.GetAll();
+            return result;
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(long id)
+        public ActionResult<QueryVehicleDto> GetById(long id)
         {
-            var result = await _vehicleService.GetById(id);
+            var result = _vehicleService.GetById(id);
             if (result is null)
             {
                 return NotFound("Vehicle is not exist!!!");
             }
-            return Ok(result);
+            return result;
         }
         [HttpGet("{vehicleId}/containers")]
-        public async Task<IActionResult> GetContainersByVehicleId(long vehicleId)
+        public List<QueryContainerDto> GetContainersByVehicleId(long vehicleId)
         {
-            var result = await _containerService.GetAllByVehicleId(vehicleId);
-            return Ok(result);
+            var result = _containerService.GetAllByVehicleId(vehicleId);
+            return result;
         }
         [HttpGet("{vehicleId}/routes")]
-        public async Task<IActionResult> GetRoutesByVehicleId(long vehicleId,int numOfClusters)
+        public IEnumerable<List<QueryContainerDto>> GetRoutesByVehicleId(long vehicleId,int numOfClusters)
         {
-            var result = await _routeService.AssignRoute(vehicleId, numOfClusters);
-            return Ok(result);
+            var result = _routeService.AssignRoute(vehicleId, numOfClusters);
+            return result;
         }
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] CreateVehicleDto vehicleDTO)
+        public string Create([FromBody] CreateVehicleDto vehicleDTO)
         {
-            var result = await _vehicleService.Create(vehicleDTO);
+            var result = _vehicleService.Create(vehicleDTO);
             if (result is false )
             {
-                return BadRequest("Vehicle already exists!!!");
+                return "Vehicle already exists!!!";
             }
-            return Ok("The vehicle added.");
+            return "The vehicle added.";
         }
         [HttpPut("{id}/edit")]
-        public async Task<IActionResult> Edit(long id,[FromBody] EditVehicleDto vehicleDTO)
+        public string Edit(long id,[FromBody] EditVehicleDto vehicleDTO)
         {
-            var result = await _vehicleService.Edit(id,vehicleDTO);
+            var result = _vehicleService.Edit(id,vehicleDTO);
             if (result is false)
             {
-                return NotFound("Vehicle is not exist!!!");
+                return "Vehicle is not exist!!!";
             }
-            return Ok("The vehicle updated.");
+            return "The vehicle updated.";
         }
         [HttpDelete("{id}/delete")]
-        public async Task<IActionResult> Delete(long id)
+        public string Delete(long id)
         {
-            var result = await _vehicleService.Delete(id);
+            var result = _vehicleService.Delete(id);
             if (result is false)
             {
-                return NotFound("Vehicle is not exist already!!!");
+                return "Vehicle is not exist already!!!";
             }
-            return Ok("The vehicle was removed.");
+            return "The vehicle was removed.";
         }
     }
 }

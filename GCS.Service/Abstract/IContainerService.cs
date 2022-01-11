@@ -9,12 +9,12 @@ namespace GCS.Service.Abstract
 {
     public interface IContainerService
     {
-        Task<List<QueryContainerDto>> GetAll();
-        Task<List<QueryContainerDto>> GetAllByVehicleId(long id);
-        Task<QueryContainerDto> GetById(long id);
-        Task<bool> Create(CreateContainerDto containerDTO);
-        Task<bool> Edit(long id, EditContainerDto containerDTO);
-        Task<bool> Delete(long id);
+        List<QueryContainerDto> GetAll();
+        List<QueryContainerDto> GetAllByVehicleId(long id);
+        QueryContainerDto GetById(long id);
+        bool Create(CreateContainerDto containerDTO);
+        bool Edit(long id, EditContainerDto containerDTO);
+        bool Delete(long id);
 
     }
 }

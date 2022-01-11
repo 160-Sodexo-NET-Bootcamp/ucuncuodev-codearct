@@ -20,58 +20,58 @@ namespace GCS.Service.Concrete
             _uow = uow;
             _mapper = mapper;
         }
-        public async Task<bool> Create(CreateVehicleDto vehicleDto)
+        public bool Create(CreateVehicleDto vehicleDto)
         {
-            var vehicle = await _uow.Vehicles.Get(v => v.Plate == vehicleDto.Plate);
+            var vehicle = _uow.Vehicles.Get(v => v.Plate == vehicleDto.Plate);
             if (vehicle is not null)
             {
                 return false;
             }
             vehicle = _mapper.Map<Vehicle>(vehicleDto);
-            await _uow.Vehicles.Add(vehicle);
-            await _uow.CommitAsync();
+            _uow.Vehicles.Add(vehicle);
+            _uow.CommitAsync();
             return true;
         }
 
-        public async Task<bool> Delete(long id)
+        public bool Delete(long id)
         {
-            var vehicle = await _uow.Vehicles.Get(v => v.Id == id);
+            var vehicle = _uow.Vehicles.Get(v => v.Id == id);
             if (vehicle is null)
             {
                 return false;
             }
-            var containers = await _uow.Containers.GetAllByVehicleId(vehicle.Id);
-            await _uow.Vehicles.Delete(vehicle);
-            await _uow.Containers.DeleteAll(containers);
-            await _uow.CommitAsync();
+            var containers = _uow.Containers.GetAllByVehicleId(vehicle.Id);
+            _uow.Vehicles.Delete(vehicle);
+            _uow.Containers.DeleteAll(containers);
+            _uow.CommitAsync();
             return true;
         }
 
-        public async Task<bool> Edit(long id, EditVehicleDto vehicleDto)
+        public bool Edit(long id, EditVehicleDto vehicleDto)
         {
-            var vehicle = await _uow.Vehicles.Get(v => v.Id ==id);
+            var vehicle = _uow.Vehicles.Get(v => v.Id ==id);
             if (vehicle is null)
             {
                 return false;
             }
             vehicle.Name = string.IsNullOrEmpty(vehicleDto.Name) ? vehicle.Name : vehicleDto.Name;
             vehicle.Plate = string.IsNullOrEmpty(vehicleDto.Plate) ? vehicle.Plate : vehicleDto.Plate;
-            await _uow.Vehicles.Update(vehicle);
-            await _uow.CommitAsync();
+            _uow.Vehicles.Update(vehicle);
+            _uow.CommitAsync();
             return true;
         }
 
-        public async Task<List<QueryVehicleDto>> GetAll()
+        public List<QueryVehicleDto> GetAll()
         {
-            var vehicles = await _uow.Vehicles.GetAll();
+            var vehicles = _uow.Vehicles.GetAll();
             List<QueryVehicleDto> vehicleDTOs = _mapper.Map<List<QueryVehicleDto>>(vehicles);
             return vehicleDTOs;
 
         }
 
-        public async Task<QueryVehicleDto> GetById(long id)
+        public QueryVehicleDto GetById(long id)
         {
-            var vehicle = await _uow.Vehicles.Get(v => v.Id == id);
+            var vehicle = _uow.Vehicles.Get(v => v.Id == id);
             QueryVehicleDto vehicleDTO = _mapper.Map<QueryVehicleDto>(vehicle);
             return vehicleDTO;
         }

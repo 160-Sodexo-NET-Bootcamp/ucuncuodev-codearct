@@ -21,34 +21,34 @@ namespace GCS.Service.Concrete
             _mapper = mapper;
         }
 
-        public async Task<bool> Create(CreateContainerDto containerDTO)
+        public bool Create(CreateContainerDto containerDTO)
         {
-            var container = await _uow.Containers.Get(c => c.Name == containerDTO.Name);
+            var container = _uow.Containers.Get(c => c.Name == containerDTO.Name);
             if (container is not null)
             {
                 return false;
             }
             container = _mapper.Map<Container>(containerDTO);
-            await _uow.Containers.Add(container);
-            await _uow.CommitAsync();
+             _uow.Containers.Add(container);
+            _uow.CommitAsync();
             return true;
         }
 
-        public async Task<bool> Delete(long id)
+        public bool Delete(long id)
         {
-            var container =await _uow.Containers.Get(c => c.Id == id);
+            var container =_uow.Containers.Get(c => c.Id == id);
             if (container is null)
             {
                 return false;
             }
-            await _uow.Containers.Delete(container);
-            await _uow.CommitAsync();
+            _uow.Containers.Delete(container);
+            _uow.CommitAsync();
             return true;
         }
 
-        public async Task<bool> Edit(long id, EditContainerDto containerDTO)
+        public bool Edit(long id, EditContainerDto containerDTO)
         {
-            var container = await _uow.Containers.Get(c => c.Id == id);
+            var container = _uow.Containers.Get(c => c.Id == id);
             if (container is null)
             {
                 return false;
@@ -58,28 +58,28 @@ namespace GCS.Service.Concrete
             container.Longitude = containerDTO.Longitude == default ? container.Longitude : containerDTO.Longitude;
             if (container.VehicleId == default)
                 container.VehicleId = containerDTO.VehicleId;
-            await _uow.Containers.Update(container);
-            await _uow.CommitAsync();
+            _uow.Containers.Update(container);
+            _uow.CommitAsync();
             return true;
         }
 
-        public async Task<List<QueryContainerDto>> GetAll()
+        public List<QueryContainerDto> GetAll()
         {
-            var containers = await _uow.Containers.GetAll();
+            var containers = _uow.Containers.GetAll();
             List<QueryContainerDto> containerDTOs = _mapper.Map<List<QueryContainerDto>>(containers);
             return containerDTOs;
         }
 
-        public async Task<List<QueryContainerDto>> GetAllByVehicleId(long id)
+        public List<QueryContainerDto> GetAllByVehicleId(long id)
         {
-            var containers = await _uow.Containers.GetAllByVehicleId(id);
+            var containers = _uow.Containers.GetAllByVehicleId(id);
             List<QueryContainerDto> containerDTOs = _mapper.Map<List<QueryContainerDto>>(containers);
             return containerDTOs;
         }
 
-        public async Task<QueryContainerDto> GetById(long id)
+        public QueryContainerDto GetById(long id)
         {
-            var container = await _uow.Containers.Get(c => c.Id == id);
+            var container = _uow.Containers.Get(c => c.Id == id);
             QueryContainerDto containerDTO = _mapper.Map<QueryContainerDto>(container);
             return containerDTO;
 

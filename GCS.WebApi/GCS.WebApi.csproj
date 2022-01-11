@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GCS.Service\GCS.Service.csproj" />
-    <ProjectReference Include="..\GCS.Servise\GCS.Service.csproj" />
     <ProjectReference Include="..\Repository\GCS.Repository.csproj" />
   </ItemGroup>
 
