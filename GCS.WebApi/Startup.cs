@@ -1,4 +1,5 @@
 using AutoMapper;
+using GCS.Core.Middlewares.ForbiddenMiddleware;
 using GCS.Repository.Abstract;
 using GCS.Repository.Concrete.EntityFramework;
 using GCS.Service.Abstract;
@@ -74,6 +75,8 @@ namespace GCS.WebApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseForbiddenMiddleware();
 
             app.UseEndpoints(endpoints =>
             {

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\GCS.Domain.csproj" />
+    <ProjectReference Include="..\GCS.Domain\GCS.Domain.csproj" />
   </ItemGroup>
 
 </Project>
