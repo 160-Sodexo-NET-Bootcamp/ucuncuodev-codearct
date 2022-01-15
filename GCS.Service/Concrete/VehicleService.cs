@@ -29,7 +29,7 @@ namespace GCS.Service.Concrete
             }
             vehicle = _mapper.Map<Vehicle>(vehicleDto);
             _uow.Vehicles.Add(vehicle);
-            _uow.CommitAsync();
+            _uow.Commit();
             return true;
         }
 
@@ -43,7 +43,7 @@ namespace GCS.Service.Concrete
             var containers = _uow.Containers.GetAllByVehicleId(vehicle.Id);
             _uow.Vehicles.Delete(vehicle);
             _uow.Containers.DeleteAll(containers);
-            _uow.CommitAsync();
+            _uow.Commit();
             return true;
         }
 
@@ -57,7 +57,7 @@ namespace GCS.Service.Concrete
             vehicle.Name = string.IsNullOrEmpty(vehicleDto.Name) ? vehicle.Name : vehicleDto.Name;
             vehicle.Plate = string.IsNullOrEmpty(vehicleDto.Plate) ? vehicle.Plate : vehicleDto.Plate;
             _uow.Vehicles.Update(vehicle);
-            _uow.CommitAsync();
+            _uow.Commit();
             return true;
         }
 

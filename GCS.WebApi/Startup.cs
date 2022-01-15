@@ -1,6 +1,7 @@
 using AutoMapper;
 using GCS.Core.Middlewares.ForbiddenMiddleware;
 using GCS.Repository.Abstract;
+using GCS.Repository.Concrete.Dapper;
 using GCS.Repository.Concrete.EntityFramework;
 using GCS.Service.Abstract;
 using GCS.Service.Concrete;
@@ -8,6 +9,7 @@ using GCS.Service.Mapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -42,14 +45,20 @@ namespace GCS.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GCS.WebApi", Version = "v1" });
             });
 
+            //for EntityFramework
+            //services.AddDbContext<GarbageCollectionSystemDbContext>(
+            //    options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<GarbageCollectionSystemDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //for Dapper
+            services.AddTransient<IDbConnection>(sp => new SqlConnection(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<IUnitOfWork, EfUnitOfWork>();
-            services.AddScoped<IVehicleRepository, EfVehicleRepository>();
+            //services.AddScoped<IUnitOfWork, EfUnitOfWork>();//for EntityFramework
+            services.AddScoped<IUnitOfWork, DprUnitOfWork>();//for Dapper
+            //services.AddScoped<IVehicleRepository, EfVehicleRepository>();//for EntityFramework
+            services.AddScoped<IVehicleRepository, DprVehicleRepository>();//for Dapper
             services.AddScoped<IVehicleService, VehicleService>();
-            services.AddScoped<IContainerRepository, EfContainerRepository>();
+            //services.AddScoped<IContainerRepository, EfContainerRepository>();//for EntityFramework
+            services.AddScoped<IContainerRepository, DprContainerRepository>();//for Dapper
             services.AddScoped<IContainerService, ContainerService>();
             services.AddScoped<IRouteService, RouteService>();
 

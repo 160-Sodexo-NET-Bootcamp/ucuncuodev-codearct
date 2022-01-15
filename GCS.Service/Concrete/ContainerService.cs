@@ -30,7 +30,7 @@ namespace GCS.Service.Concrete
             }
             container = _mapper.Map<Container>(containerDTO);
              _uow.Containers.Add(container);
-            _uow.CommitAsync();
+            _uow.Commit();
             return true;
         }
 
@@ -42,7 +42,7 @@ namespace GCS.Service.Concrete
                 return false;
             }
             _uow.Containers.Delete(container);
-            _uow.CommitAsync();
+            _uow.Commit();
             return true;
         }
 
@@ -59,7 +59,7 @@ namespace GCS.Service.Concrete
             if (container.VehicleId == default)
                 container.VehicleId = containerDTO.VehicleId;
             _uow.Containers.Update(container);
-            _uow.CommitAsync();
+            _uow.Commit();
             return true;
         }
 

@@ -10,8 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\GCS.Domain.csproj" />
-    <ProjectReference Include="..\GCS.Domain\GCS.Domain.csproj" />
-    <ProjectReference Include="..\GCS.Repository\GCS.Repository.csproj" />
     <ProjectReference Include="..\Repository\GCS.Repository.csproj" />
   </ItemGroup>
 
