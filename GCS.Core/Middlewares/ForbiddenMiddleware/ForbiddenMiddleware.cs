@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,6 @@ namespace GCS.Core.Middlewares.ForbiddenMiddleware
                 await context.Response.WriteAsync("Forbidden Zone from Middleware!!!");
                 return;
             }
-
             await _next.Invoke(context);
         }
     }

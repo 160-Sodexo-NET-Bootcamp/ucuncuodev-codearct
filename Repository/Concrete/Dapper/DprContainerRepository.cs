@@ -19,10 +19,10 @@ namespace GCS.Repository.Concrete.Dapper
 
         public List<Container> GetAllByVehicleId(long id)
         {
-            var sql = "SELECT * FROM Containers A INNER JOIN Vehicles B on A.vehicleId = B.Id";
-            var result = _connection.Query<Container, Vehicle, Container>(sql,
-            (b, a) => { b.Vehicle = a; return b; }, splitOn: "Id");
-            return result.ToList();
+            var sql = $"SELECT * FROM Containers c INNER JOIN Vehicles v on c.vehicleId = v.Id AND v.Id={id}";
+            var containers = _connection.Query<Container, Vehicle, Container>(sql,
+            (container, vehicle) => { container.Vehicle = vehicle; return container; }, splitOn: "vehicleId").ToList();
+            return containers;
         }
     }
 }
