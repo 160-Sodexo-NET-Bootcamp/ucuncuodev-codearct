@@ -19,7 +19,7 @@ namespace GCS.Core.Middlewares.ForbiddenMiddleware
         public async Task Invoke(HttpContext context)
         {
             var id = context.GetRouteData().Values["id"];
-            if (context.Request.Path.StartsWithSegments($"/vehicles/{id}"))
+            if (context.Request.Path==$"/vehicles/{id}")
             {
                 context.Response.StatusCode = 403;
                 await context.Response.WriteAsync("Forbidden Zone from Middleware!!!");
