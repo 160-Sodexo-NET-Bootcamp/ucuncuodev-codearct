@@ -22,6 +22,7 @@ namespace GCS.Core.Middlewares.ForbiddenMiddleware
             if (context.Request.Path==$"/vehicles/{id}")
             {
                 context.Response.StatusCode = 403;
+                context.Response.ContentType = "text/plain";
                 await context.Response.WriteAsync("Forbidden Zone from Middleware!!!");
                 return;
             }
